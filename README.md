@@ -247,8 +247,8 @@ gigshield/
 
 ##  Links
 
--  **Phase 1 Video:** [Link to be added]
--  **Prototype:** [Link to be added]
+-  **Phase 1 Video:** [https://youtu.be/cFEerA3mJrI?si=t5UlyaBos2Wj9dW6]
+-  **Prototype:** [(https://Likhiteswari19.github.io/gigshield/gigshield.html)]
 
 ---
 
