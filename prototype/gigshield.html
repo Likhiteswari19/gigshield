@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GigShield — Income Insurance for Delivery Partners</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --g900: #042d1e;
+  --g800: #0a5c3c;
+  --g700: #0f7a50;
+  --g600: #14a06a;
+  --g500: #1bbf7e;
+  --g400: #3dd68c;
+  --g300: #7ae8b0;
+  --g200: #b5f4d2;
+  --g100: #ddfaed;
+  --g50:  #f0fdf7;
+  --amber: #f59e0b;
+  --red:   #ef4444;
+  --blue:  #3b82f6;
+  --ink:   #0d1f17;
+  --ink2:  #1c3829;
+  --muted: #5a7a69;
+  --border:#d1e8dc;
+  --bg:    #f4fbf7;
+  --white: #ffffff;
+  --card-shadow: 0 1px 3px rgba(10,92,60,0.08), 0 4px 16px rgba(10,92,60,0.06);
+  --card-shadow-hover: 0 4px 12px rgba(10,92,60,0.14), 0 12px 32px rgba(10,92,60,0.1);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: 240px;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  padding: 0 0 24px;
+}
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.sidebar-logo .wordmark {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+.sidebar-logo .wordmark span { color: var(--g400); }
+.sidebar-logo .tagline {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  margin-top: 4px; letter-spacing: 0.04em;
+}
+.sidebar-persona {
+  margin: 16px 16px 8px;
+  background: rgba(61,214,140,0.1);
+  border: 1px solid rgba(61,214,140,0.2);
+  border-radius: var(--radius-xs);
+  padding: 8px 12px;
+  font-size: 12px; color: var(--g300);
+  font-weight: 500;
+}
+.sidebar-persona span { color: rgba(255,255,255,0.5); font-weight: 400; display: block; font-size: 11px; margin-top: 2px; }
+
+.nav-section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.25);
+  padding: 16px 24px 6px;
+  text-transform: uppercase;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 24px;
+  font-size: 14px; font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.15s;
+  position: relative;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.nav-item:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); }
+.nav-item.active {
+  color: var(--white);
+  background: rgba(61,214,140,0.12);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 20px;
+  background: var(--g400);
+  border-radius: 0 3px 3px 0;
+}
+.nav-icon {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-badge {
+  margin-left: auto;
+  background: var(--red);
+  color: white; font-size: 10px; font-weight: 700;
+  padding: 1px 6px; border-radius: 99px;
+}
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 16px 24px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.user-card {
+  display: flex; align-items: center; gap: 10px;
+}
+.user-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--g700), var(--g500));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px; color: white;
+  flex-shrink: 0;
+}
+.user-name { font-size: 13px; font-weight: 500; color: var(--white); }
+.user-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+/* ─── MAIN CONTENT ─── */
+.main {
+  margin-left: 240px;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ─── TOP BAR ─── */
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700;
+  color: var(--ink);
+}
+.topbar-breadcrumb {
+  font-size: 13px; color: var(--muted);
+}
+.topbar-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+.topbar-date {
+  font-size: 12px; color: var(--muted);
+  background: var(--bg); padding: 5px 12px; border-radius: 99px;
+  border: 1px solid var(--border);
+}
+.alert-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: #fef3c7; border: 1px solid #f59e0b;
+  color: #92400e; font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border-radius: 99px;
+  animation: pulse-amber 2s ease-in-out infinite;
+}
+@keyframes pulse-amber {
+  0%,100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(245,158,11,0); }
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+
+/* ─── CONTENT AREA ─── */
+.content { padding: 28px 32px 48px; }
+
+/* ─── SCREENS ─── */
+.screen { display: none; animation: fadeIn 0.2s ease; }
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── BANNER ─── */
+.disruption-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+  border: 1px solid #fcd34d;
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 24px;
+}
+.disruption-banner .banner-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: #f59e0b22;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.banner-title { font-weight: 600; font-size: 14px; color: #78350f; }
+.banner-sub { font-size: 12px; color: #92400e; margin-top: 2px; }
+.banner-action {
+  margin-left: auto;
+  background: var(--amber);
+  color: white; font-size: 12px; font-weight: 600;
+  padding: 7px 16px; border-radius: var(--radius-xs);
+  border: none; cursor: pointer; font-family: var(--font-body);
+  white-space: nowrap;
+}
+.banner-action:hover { background: #d97706; }
+
+/* ─── METRIC CARDS ─── */
+.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.metric-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.metric-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+.metric-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-color, var(--g500));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.metric-card.green { --accent-color: var(--g500); }
+.metric-card.amber { --accent-color: var(--amber); }
+.metric-card.blue  { --accent-color: var(--blue); }
+.metric-card.red   { --accent-color: var(--red); }
+.metric-label { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 700;
+  color: var(--ink); margin: 6px 0 4px;
+  letter-spacing: -0.5px;
+}
+.metric-sub { font-size: 12px; color: var(--muted); }
+.metric-badge {
+  position: absolute; top: 20px; right: 20px;
+  font-size: 11px; font-weight: 600; padding: 3px 8px;
+  border-radius: 99px;
+}
+.badge-green-light { background: var(--g100); color: var(--g800); }
+.badge-amber-light { background: #fef3c7; color: #92400e; }
+.badge-red-light   { background: #fee2e2; color: #991b1b; }
+
+/* ─── GRID LAYOUT ─── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.full-col { margin-bottom: 20px; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+.card-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.card-body { padding: 18px 22px; }
+
+/* ─── TRIGGER ROWS ─── */
+.trigger-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.trigger-item:last-child { border-bottom: none; padding-bottom: 0; }
+.trigger-icon-wrap {
+  width: 40px; height: 40px; border-radius: var(--radius-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.trigger-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.trigger-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.trigger-badge {
+  margin-left: auto; flex-shrink: 0;
+  font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 99px;
+  letter-spacing: 0.04em;
+}
+.badge-triggered { background: #dcfce7; color: #166534; }
+.badge-monitoring { background: #fef3c7; color: #92400e; }
+.badge-normal { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+.badge-blocked { background: #fee2e2; color: #991b1b; }
+.badge-review { background: #fef3c7; color: #92400e; }
+.badge-flagged { background: #fff7ed; color: #9a3412; }
+
+/* ─── PROGRESS ─── */
+.progress-row { margin-bottom: 14px; }
+.progress-row:last-child { margin-bottom: 0; }
+.progress-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+.progress-label span:first-child { color: var(--ink); font-weight: 400; }
+.progress-label span:last-child { color: var(--ink); font-weight: 600; }
+.progress-track {
+  height: 6px; background: var(--bg);
+  border-radius: 99px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-fill {
+  height: 100%; border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.fill-green { background: var(--g500); }
+.fill-amber { background: var(--amber); }
+.fill-red   { background: var(--red); }
+
+/* ─── ONBOARDING ─── */
+.onboard-steps {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 28px;
+}
+.step-item {
+  display: flex; align-items: center; gap: 10px;
+  flex: 1;
+}
+.step-item:last-child { flex: none; }
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; flex-shrink: 0;
+  font-family: var(--font-display);
+}
+.step-num.done { background: var(--g500); color: white; }
+.step-num.current { background: var(--ink); color: var(--g400); border: 2px solid var(--g400); }
+.step-num.upcoming { background: var(--border); color: var(--muted); }
+.step-text { font-size: 12px; }
+.step-text .s-label { font-weight: 600; color: var(--ink); }
+.step-text .s-sub { color: var(--muted); margin-top: 1px; }
+.step-connector {
+  flex: 1; height: 2px;
+  background: var(--border);
+  margin: 0 8px;
+}
+.step-connector.done-line { background: var(--g400); }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--ink2); }
+.form-label span { color: var(--red); margin-left: 2px; }
+.form-input, .form-select {
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-xs);
+  font-size: 14px; color: var(--ink);
+  font-family: var(--font-body);
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.form-input:focus, .form-select:focus {
+  border-color: var(--g500);
+  box-shadow: 0 0 0 3px rgba(27,191,126,0.12);
+}
+.form-input::placeholder { color: #b0c4bb; }
+.form-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.risk-score-card {
+  background: linear-gradient(135deg, var(--g50) 0%, var(--white) 100%);
+  border: 1.5px solid var(--g200);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-top: 20px;
+}
+.risk-score-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.risk-score-label { font-size: 12px; font-weight: 600; color: var(--g700); text-transform: uppercase; letter-spacing: 0.06em; }
+.risk-dial {
+  display: flex; align-items: center; gap: 16px;
+}
+.dial-circle {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: conic-gradient(var(--g500) 0deg, var(--g500) 115deg, var(--border) 115deg);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.dial-inner {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--g700);
+}
+.risk-details { flex: 1; }
+.risk-title { font-size: 15px; font-weight: 700; color: var(--g800); }
+.risk-desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+/* ─── PLAN CARDS ─── */
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.plan-card {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  background: var(--white);
+}
+.plan-card:hover { border-color: var(--g400); box-shadow: var(--card-shadow-hover); transform: translateY(-3px); }
+.plan-card.selected {
+  border-color: var(--g500);
+  background: linear-gradient(135deg, var(--g50) 0%, var(--white) 100%);
+  box-shadow: 0 0 0 4px rgba(27,191,126,0.12);
+}
+.plan-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 99px;
+  background: var(--g600); color: white;
+  margin-bottom: 10px; letter-spacing: 0.04em;
+}
+.plan-name {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; color: var(--ink);
+}
+.plan-price {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 800;
+  color: var(--g700); margin: 10px 0 4px;
+  letter-spacing: -1px;
+}
+.plan-price sup { font-size: 16px; vertical-align: super; font-weight: 600; }
+.plan-price sub { font-size: 14px; color: var(--muted); font-weight: 500; letter-spacing: 0; }
+.plan-coverage { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+.plan-features { display: flex; flex-direction: column; gap: 7px; }
+.plan-feature {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--ink);
+}
+.feat-check {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--g100); color: var(--g700);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0; font-weight: 700;
+}
+.checkmark-svg { width: 10px; height: 10px; }
+.plan-checkmark {
+  position: absolute; top: 16px; right: 16px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--g500); color: white;
+  display: none; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.plan-card.selected .plan-checkmark { display: flex; }
+
+/* PREMIUM BREAKDOWN */
+.premium-breakdown {
+  background: var(--white);
+  border: 1.5px solid var(--g200);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+}
+.breakdown-title {
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px;
+}
+.breakdown-rows { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.breakdown-item {
+  flex: 1; min-width: 110px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px;
+}
+.breakdown-item-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+.breakdown-item-val { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+.breakdown-item-val.positive { color: var(--red); }
+.breakdown-item-val.negative { color: var(--g700); }
+.final-premium {
+  background: linear-gradient(135deg, var(--g800) 0%, var(--g700) 100%);
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.final-left .final-label { font-size: 12px; color: var(--g300); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.final-left .final-amount {
+  font-family: var(--font-display);
+  font-size: 42px; font-weight: 800;
+  color: var(--white); letter-spacing: -2px; line-height: 1;
+  margin: 4px 0;
+}
+.final-left .final-per { font-size: 13px; color: var(--g300); }
+.final-right { text-align: right; }
+.final-right .payout-label { font-size: 11px; color: var(--g300); }
+.final-right .payout-val {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  color: var(--g400);
+}
+.final-right .payout-desc { font-size: 11px; color: var(--g300); margin-top: 2px; }
+
+/* ─── CLAIMS ─── */
+.claim-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0;
+  margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.claim-card:hover { box-shadow: var(--card-shadow-hover); }
+.claim-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+}
+.claim-event { display: flex; align-items: center; gap: 12px; }
+.claim-icon {
+  width: 44px; height: 44px; border-radius: var(--radius-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.claim-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+.claim-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.claim-amount {
+  font-family: var(--font-display); font-size: 22px; font-weight: 800;
+  color: var(--g700);
+}
+.claim-pipeline {
+  display: flex; align-items: center;
+  padding: 12px 20px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  gap: 4px;
+}
+.pipe-step {
+  flex: 1; text-align: center;
+  font-size: 11px; font-weight: 600;
+  padding: 5px 8px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.02em;
+}
+.pipe-done { background: var(--g100); color: var(--g800); }
+.pipe-active { background: var(--g500); color: white; }
+.pipe-pending { background: var(--border); color: var(--muted); }
+.pipe-arrow { font-size: 10px; color: var(--border); flex-shrink: 0; }
+.claim-evidence {
+  padding: 10px 20px;
+  font-size: 12px; color: var(--muted);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ─── ADMIN ─── */
+.admin-kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--card-shadow);
+}
+.kpi-title { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 6px; }
+.kpi-val {
+  font-family: var(--font-display); font-size: 32px; font-weight: 800;
+  color: var(--ink); letter-spacing: -1px;
+}
+.kpi-change { font-size: 12px; margin-top: 4px; }
+.kpi-change.up { color: var(--red); }
+.kpi-change.down { color: var(--g700); }
+.kpi-change.neutral { color: var(--muted); }
+
+.fraud-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fraud-item:last-child { border-bottom: none; }
+.fraud-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #fee2e2; color: #991b1b;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.fraud-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.fraud-reason { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.prediction-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.prediction-item:last-child { border-bottom: none; }
+.pred-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-xs);
+  background: var(--bg); display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.pred-label { font-size: 14px; font-weight: 500; color: var(--ink); }
+.pred-desc { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.pred-value { margin-left: auto; font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+
+/* ─── PAYOUT ─── */
+.payout-timeline { position: relative; padding-left: 24px; }
+.payout-timeline::before {
+  content: '';
+  position: absolute; left: 6px; top: 8px; bottom: 8px;
+  width: 2px; background: var(--border); border-radius: 99px;
+}
+.timeline-item {
+  position: relative; margin-bottom: 20px;
+  padding-left: 20px;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-dot {
+  position: absolute; left: -18px; top: 4px;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--border);
+  flex-shrink: 0;
+}
+.timeline-dot.done { background: var(--g500); box-shadow: 0 0 0 3px var(--g200); }
+.timeline-dot.active { background: var(--amber); box-shadow: 0 0 0 3px #fcd34d; animation: pulse-dot 1.5s infinite; }
+.timeline-dot.pending { background: var(--border); }
+@keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 3px #fcd34d} 50%{box-shadow:0 0 0 6px rgba(252,211,77,0)} }
+.timeline-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.timeline-time { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 22px; border-radius: var(--radius-xs);
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none; font-family: var(--font-body);
+  transition: all 0.15s;
+}
+.btn-primary {
+  background: var(--g600); color: white;
+  box-shadow: 0 2px 8px rgba(14,106,60,0.3);
+}
+.btn-primary:hover { background: var(--g700); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(14,106,60,0.35); }
+.btn-outline {
+  background: var(--white); color: var(--ink);
+  border: 1.5px solid var(--border);
+}
+.btn-outline:hover { border-color: var(--g400); background: var(--g50); }
+.btn-danger { background: var(--red); color: white; }
+
+/* ─── SECTION HEADER ─── */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.3px;
+}
+.section-sub { font-size: 14px; color: var(--muted); margin-top: 3px; }
+
+/* ─── CHART PLACEHOLDER ─── */
+.mini-chart { display: flex; align-items: flex-end; gap: 4px; height: 60px; padding-top: 8px; }
+.bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+.bar:hover { opacity: 0.8; }
+
+/* ─── WEEKLY COVERAGE VIZ ─── */
+.week-days { display: flex; gap: 8px; margin-top: 12px; }
+.day-pill {
+  flex: 1; padding: 8px 4px; text-align: center;
+  border-radius: var(--radius-xs);
+  font-size: 11px; font-weight: 600;
+}
+.day-covered { background: var(--g100); color: var(--g800); border: 1px solid var(--g300); }
+.day-disrupted { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.day-normal { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+.day-label { font-size: 10px; font-weight: 400; margin-top: 2px; }
+
+/* ─── TABLE ─── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left; padding: 10px 14px;
+  font-size: 11px; font-weight: 600;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+  border-bottom: 2px solid var(--border);
+  background: var(--bg);
+}
+.data-table td {
+  padding: 12px 14px; font-size: 13px; color: var(--ink);
+  border-bottom: 1px solid var(--border);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--g50); }
+</style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="wordmark">Gig<span>Shield</span></div>
+    <div class="tagline">AI-Powered Income Insurance</div>
+  </div>
+  <div class="sidebar-persona">
+    Food Delivery Partner
+    <span>Zomato / Swiggy · Hyderabad</span>
+  </div>
+
+  <div class="nav-section-label">Worker</div>
+  <button class="nav-item active" onclick="showScreen('dashboard', this)">
+    <span class="nav-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+    </span>
+    Dashboard
+  </button>
+  <button class="nav-item" onclick="showScreen('onboard', this)">
+    <span class="nav-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><circle cx="10" cy="6" r="3.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7"/></svg>
+    </span>
+    Onboarding
+  </button>
+  <button class="nav-item" onclick="showScreen('policy', this)">
+    <span class="nav-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><path d="M4 4h12a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M7 8h6M7 11h4"/></svg>
+    </span>
+    My Policy
+  </button>
+  <button class="nav-item" onclick="showScreen('claims', this)">
+    <span class="nav-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><path d="M10 2l2.5 5 5.5.8-4 3.9.9 5.5L10 14.8l-4.9 2.4.9-5.5-4-3.9 5.5-.8z"/></svg>
+    </span>
+    Claims
+    <span class="nav-badge">1</span>
+  </button>
+  <button class="nav-item" onclick="showScreen('payout', this)">
+    <span class="nav-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><rect x="2" y="5" width="16" height="11" rx="2"/><path d="M6 9h2M6 12h4"/><circle cx="14" cy="11" r="1.5" fill="currentColor"/></svg>
+    </span>
+    Payouts
+  </button>
+
+  <div class="nav-section-label">Admin</div>
+  <button class="nav-item" onclick="showScreen('admin', this)">
+    <span class="nav-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><path d="M2 14l4-4 3 3 4-5 5 6"/></svg>
+    </span>
+    Analytics
+  </button>
+
+  <div class="sidebar-bottom">
+    <div class="user-card">
+      <div class="user-avatar">RK</div>
+      <div>
+        <div class="user-name">Ravi Kumar</div>
+        <div class="user-sub">Pro Shield · Active</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── MAIN ─── -->
+<main class="main">
+  <div class="topbar">
+    <span id="topbar-title" class="topbar-title">Dashboard</span>
+    <span class="topbar-breadcrumb">/ Home</span>
+    <div class="topbar-actions">
+      <div class="alert-pill">
+        <span class="dot"></span>
+        Rain Alert Active
+      </div>
+      <div class="topbar-date">Fri, 20 Mar 2026</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══════════════════════════════════════
+         SCREEN: DASHBOARD
+    ══════════════════════════════════════ -->
+    <div id="screen-dashboard" class="screen active">
+      <div class="disruption-banner">
+        <div class="banner-icon">🌧</div>
+        <div>
+          <div class="banner-title">Heavy rain disruption — Kukatpally, KPHB Colony</div>
+          <div class="banner-sub">Rainfall 68mm/hr · IMD Red Alert confirmed · Claim auto-initiated · Payout processing</div>
+        </div>
+        <button class="banner-action" onclick="showScreen('claims', document.querySelector('.nav-item:nth-child(6)'))">View Claim →</button>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card green">
+          <div class="metric-label">This week's coverage</div>
+          <div class="metric-value">₹3,200</div>
+          <div class="metric-sub">Pro Shield · 5 days max</div>
+          <span class="metric-badge badge-green-light">Active</span>
+        </div>
+        <div class="metric-card amber">
+          <div class="metric-label">Premium paid</div>
+          <div class="metric-value">₹60</div>
+          <div class="metric-sub">This week (AI-adjusted)</div>
+          <span class="metric-badge badge-amber-light">Weekly</span>
+        </div>
+        <div class="metric-card green">
+          <div class="metric-label">Total earned back</div>
+          <div class="metric-value">₹7,680</div>
+          <div class="metric-sub">12 claims · 4 months</div>
+          <span class="metric-badge badge-green-light">+18%</span>
+        </div>
+        <div class="metric-card blue">
+          <div class="metric-label">Fraud score</div>
+          <div class="metric-value">0.08</div>
+          <div class="metric-sub">Very low risk</div>
+          <span class="metric-badge badge-green-light">Safe</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Live trigger status</div>
+              <div class="card-sub">Real-time monitoring · Updated 2 min ago</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="trigger-item">
+              <div class="trigger-icon-wrap" style="background:#dbeafe">🌧</div>
+              <div>
+                <div class="trigger-name">Heavy rain</div>
+                <div class="trigger-detail">68mm/hr · Red Alert · Kukatpally</div>
+              </div>
+              <span class="trigger-badge badge-triggered">TRIGGERED</span>
+            </div>
+            <div class="trigger-item">
+              <div class="trigger-icon-wrap" style="background:#fef3c7">☀️</div>
+              <div>
+                <div class="trigger-name">Extreme heat</div>
+                <div class="trigger-detail">39°C · Threshold: 43°C</div>
+              </div>
+              <span class="trigger-badge badge-monitoring">MONITORING</span>
+            </div>
+            <div class="trigger-item">
+              <div class="trigger-icon-wrap" style="background:#f3e8ff">💨</div>
+              <div>
+                <div class="trigger-name">Air quality (AQI)</div>
+                <div class="trigger-detail">AQI 142 · Moderate · Threshold: 400</div>
+              </div>
+              <span class="trigger-badge badge-normal">NORMAL</span>
+            </div>
+            <div class="trigger-item">
+              <div class="trigger-icon-wrap" style="background:#fee2e2">🚨</div>
+              <div>
+                <div class="trigger-name">Curfew / Strike</div>
+                <div class="trigger-detail">No active orders in Hyderabad</div>
+              </div>
+              <span class="trigger-badge badge-normal">NORMAL</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Week of Mar 17–23</div>
+              <div class="card-sub">Coverage summary</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="week-days">
+              <div class="day-pill day-normal"><div>M</div><div class="day-label">₹640</div></div>
+              <div class="day-pill day-covered"><div>T</div><div class="day-label">₹640</div></div>
+              <div class="day-pill day-covered"><div>W</div><div class="day-label">₹640</div></div>
+              <div class="day-pill day-disrupted"><div>T</div><div class="day-label">Rain</div></div>
+              <div class="day-pill day-disrupted"><div>F</div><div class="day-label">Now</div></div>
+              <div class="day-pill day-normal"><div>S</div><div class="day-label">—</div></div>
+              <div class="day-pill day-normal"><div>S</div><div class="day-label">—</div></div>
+            </div>
+            <div style="margin-top:20px">
+              <div class="progress-row">
+                <div class="progress-label"><span>Days covered</span><span>2 of 5</span></div>
+                <div class="progress-track"><div class="progress-fill fill-green" style="width:40%"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Payout released</span><span>₹1,280</span></div>
+                <div class="progress-track"><div class="progress-fill fill-green" style="width:40%"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-label"><span>Max coverage remaining</span><span>₹1,920</span></div>
+                <div class="progress-track"><div class="progress-fill fill-amber" style="width:60%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-size:12px;color:var(--muted)">Next premium</div>
+                <div style="font-size:15px;font-weight:600">₹60 · Mon Mar 24</div>
+              </div>
+              <button class="btn btn-outline" style="font-size:12px;padding:8px 14px">Renew early</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Monthly earnings protected</div>
+          <div class="topbar-date" style="margin-left:auto">Last 6 months</div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;align-items:flex-end;gap:6px;height:80px">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="bar" style="width:100%;height:35px;background:var(--g200)"></div>
+              <div style="font-size:10px;color:var(--muted)">Oct</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="bar" style="width:100%;height:48px;background:var(--g300)"></div>
+              <div style="font-size:10px;color:var(--muted)">Nov</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="bar" style="width:100%;height:30px;background:var(--g200)"></div>
+              <div style="font-size:10px;color:var(--muted)">Dec</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="bar" style="width:100%;height:54px;background:var(--g400)"></div>
+              <div style="font-size:10px;color:var(--muted)">Jan</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="bar" style="width:100%;height:42px;background:var(--g300)"></div>
+              <div style="font-size:10px;color:var(--muted)">Feb</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div class="bar" style="width:100%;height:62px;background:var(--g600)"></div>
+              <div style="font-size:10px;color:var(--muted)">Mar</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:20px">
+            <div style="font-size:12px;color:var(--muted)">Total protected: <strong style="color:var(--ink)">₹7,680</strong></div>
+            <div style="font-size:12px;color:var(--muted)">Total premiums paid: <strong style="color:var(--ink)">₹312</strong></div>
+            <div style="font-size:12px;color:var(--muted)">Net benefit: <strong style="color:var(--g700)">₹7,368</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: ONBOARDING
+    ══════════════════════════════════════ -->
+    <div id="screen-onboard" class="screen">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Worker Registration</div>
+          <div class="section-sub">Set up your GigShield account in under 2 minutes</div>
+        </div>
+      </div>
+
+      <div class="onboard-steps" style="margin-bottom:28px">
+        <div class="step-item">
+          <div class="step-num done">✓</div>
+          <div class="step-text"><div class="s-label">Phone Verify</div><div class="s-sub">OTP confirmed</div></div>
+        </div>
+        <div class="step-connector done-line"></div>
+        <div class="step-item">
+          <div class="step-num current">2</div>
+          <div class="step-text"><div class="s-label">Your Profile</div><div class="s-sub">Fill details</div></div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item">
+          <div class="step-num upcoming">3</div>
+          <div class="step-text"><div class="s-label">Risk Score</div><div class="s-sub">AI assessment</div></div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item">
+          <div class="step-num upcoming">4</div>
+          <div class="step-text"><div class="s-label">Choose Plan</div><div class="s-sub">Weekly pricing</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header">
+          <div class="card-title">Personal & Work Details</div>
+        </div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Full name <span>*</span></label>
+              <input class="form-input" type="text" placeholder="Ravi Kumar" value="Ravi Kumar"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mobile number <span>*</span></label>
+              <input class="form-input" type="text" placeholder="+91 98765 43210" value="+91 98765 43210"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Delivery platform <span>*</span></label>
+              <select class="form-select">
+                <option>Zomato</option>
+                <option selected>Swiggy</option>
+                <option>Both (Zomato + Swiggy)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Primary work zone <span>*</span></label>
+              <select class="form-select">
+                <option selected>Kukatpally, Hyderabad</option>
+                <option>Banjara Hills, Hyderabad</option>
+                <option>Kondapur, Hyderabad</option>
+                <option>Madhapur, Hyderabad</option>
+                <option>LB Nagar, Hyderabad</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Average weekly earnings (₹)</label>
+              <input class="form-input" type="text" placeholder="e.g. 4500" value="4800"/>
+              <span class="form-hint">Used to calculate your coverage amount</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hours worked per day</label>
+              <select class="form-select">
+                <option>4–6 hours</option>
+                <option>6–8 hours</option>
+                <option selected>8–10 hours</option>
+                <option>10+ hours</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Days worked per week</label>
+              <select class="form-select">
+                <option>3–4 days</option>
+                <option selected>5 days</option>
+                <option>6–7 days</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Bank / UPI for payouts</label>
+              <input class="form-input" type="text" placeholder="UPI ID or account number" value="ravi@ybl"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="risk-score-card">
+        <div class="risk-score-header">
+          <div class="risk-score-label">🤖 AI Risk Assessment</div>
+        </div>
+        <div class="risk-dial">
+          <div class="dial-circle">
+            <div class="dial-inner">3.2</div>
+          </div>
+          <div class="risk-details">
+            <div class="risk-title">Low Risk · Zone score 3.2 / 10</div>
+            <div class="risk-desc">Kukatpally has moderate flood history (zone multiplier: 1.10). Monsoon season surcharge: +₹8/week. No prior claim history — loyalty discount applied: −₹2/week.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:20px">
+        <button class="btn btn-outline" style="flex:1">← Save & Exit</button>
+        <button class="btn btn-primary" style="flex:2" onclick="showScreen('policy', document.querySelector('.nav-item:nth-child(5)'))">Next: Choose My Plan →</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: POLICY
+    ══════════════════════════════════════ -->
+    <div id="screen-policy" class="screen">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Choose Your Weekly Plan</div>
+          <div class="section-sub">AI-personalised premium for Ravi Kumar · Kukatpally zone</div>
+        </div>
+      </div>
+
+      <div class="plans-grid" id="plans-grid">
+        <div class="plan-card" onclick="selectPlan(this, 29, 480, 3)">
+          <div class="plan-checkmark">✓</div>
+          <div class="plan-name">Basic Shield</div>
+          <div class="plan-price"><sup>₹</sup>29<sub>/week</sub></div>
+          <div class="plan-coverage">₹480/day · up to 3 days</div>
+          <div class="plan-features">
+            <div class="plan-feature"><div class="feat-check">✓</div> Rain + Flood triggers</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> Auto-claim filing</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> UPI instant payout</div>
+          </div>
+        </div>
+        <div class="plan-card selected" onclick="selectPlan(this, 49, 640, 5)">
+          <div class="plan-checkmark">✓</div>
+          <div class="plan-badge">RECOMMENDED</div>
+          <div class="plan-name">Pro Shield</div>
+          <div class="plan-price"><sup>₹</sup>49<sub>/week</sub></div>
+          <div class="plan-coverage">₹640/day · up to 5 days</div>
+          <div class="plan-features">
+            <div class="plan-feature"><div class="feat-check">✓</div> All 5 disruption triggers</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> Auto-claim + fraud shield</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> Priority UPI payout</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> SMS + WhatsApp alerts</div>
+          </div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this, 79, 800, 6)">
+          <div class="plan-checkmark">✓</div>
+          <div class="plan-name">Max Shield</div>
+          <div class="plan-price"><sup>₹</sup>79<sub>/week</sub></div>
+          <div class="plan-coverage">₹800/day · up to 6 days</div>
+          <div class="plan-features">
+            <div class="plan-feature"><div class="feat-check">✓</div> All triggers + curfew</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> Enhanced fraud protection</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> &lt;1hr payout SLA</div>
+            <div class="plan-feature"><div class="feat-check">✓</div> Dedicated support line</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="premium-breakdown" id="premium-breakdown">
+        <div class="breakdown-title">AI Premium Breakdown</div>
+        <div class="breakdown-rows">
+          <div class="breakdown-item">
+            <div class="breakdown-item-label">Base rate</div>
+            <div class="breakdown-item-val" id="bd-base">₹49</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-item-label">Zone risk (Kukatpally)</div>
+            <div class="breakdown-item-val positive">+₹8</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-item-label">Season factor (monsoon)</div>
+            <div class="breakdown-item-val positive">+₹5</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-item-label">Loyalty discount</div>
+            <div class="breakdown-item-val negative">−₹2</div>
+          </div>
+        </div>
+        <div class="final-premium">
+          <div class="final-left">
+            <div class="final-label">Your personalised weekly premium</div>
+            <div class="final-amount" id="final-amt">₹60</div>
+            <div class="final-per">Auto-deducted every Monday</div>
+          </div>
+          <div class="final-right">
+            <div class="payout-label">MAX WEEKLY PAYOUT</div>
+            <div class="payout-val" id="max-payout">₹3,200</div>
+            <div class="payout-desc" id="payout-desc">5 days × ₹640/day</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px">
+        <button class="btn btn-outline" style="flex:1">← Back</button>
+        <button class="btn btn-primary" style="flex:2" onclick="showScreen('dashboard', document.querySelector('.nav-item:nth-child(3)'))">Activate Policy →</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: CLAIMS
+    ══════════════════════════════════════ -->
+    <div id="screen-claims" class="screen">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Claims</div>
+          <div class="section-sub">Zero-touch — all claims auto-filed by GigShield</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span class="metric-badge badge-green-light" style="font-size:12px;padding:6px 14px">3 paid this month</span>
+          <span class="metric-badge badge-amber-light" style="font-size:12px;padding:6px 14px">1 processing</span>
+        </div>
+      </div>
+
+      <!-- Claim 1 — processing -->
+      <div class="claim-card">
+        <div class="claim-header">
+          <div class="claim-event">
+            <div class="claim-icon" style="background:#dbeafe">🌧</div>
+            <div>
+              <div class="claim-title">Heavy rain — Kukatpally</div>
+              <div class="claim-meta">Today, Mar 20 · Auto-triggered · IMD Red Alert confirmed</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="claim-amount">₹640</div>
+            <span class="trigger-badge badge-monitoring" style="font-size:11px">Processing</span>
+          </div>
+        </div>
+        <div class="claim-pipeline">
+          <span class="pipe-step pipe-done">Detected</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Verified</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-active">Payout sending</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-pending">Paid</span>
+        </div>
+        <div class="claim-evidence">
+          <span>📍</span> Rainfall 68mm/hr · GPS: Kukatpally zone · Fraud score: 0.08 · Expected in your account within 45 min
+        </div>
+      </div>
+
+      <!-- Claim 2 — paid -->
+      <div class="claim-card">
+        <div class="claim-header">
+          <div class="claim-event">
+            <div class="claim-icon" style="background:#fef3c7">🌧</div>
+            <div>
+              <div class="claim-title">Heavy rain — Kukatpally</div>
+              <div class="claim-meta">Mar 15, 2026 · Auto-triggered · 1hr 42min turnaround</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="claim-amount">₹640</div>
+            <span class="trigger-badge badge-triggered" style="font-size:11px">Paid</span>
+          </div>
+        </div>
+        <div class="claim-pipeline">
+          <span class="pipe-step pipe-done">Detected</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Verified</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Payout sent</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Paid ✓</span>
+        </div>
+        <div class="claim-evidence">
+          <span>💳</span> ₹640 → HDFC Bank ···4321 via UPI · Ref: GS-2026-0341
+        </div>
+      </div>
+
+      <!-- Claim 3 — paid -->
+      <div class="claim-card">
+        <div class="claim-header">
+          <div class="claim-event">
+            <div class="claim-icon" style="background:#fee2e2">🚨</div>
+            <div>
+              <div class="claim-title">Curfew — Section 144 order</div>
+              <div class="claim-meta">Mar 10, 2026 · Auto-triggered · Admin verified</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="claim-amount">₹640</div>
+            <span class="trigger-badge badge-triggered" style="font-size:11px">Paid</span>
+          </div>
+        </div>
+        <div class="claim-pipeline">
+          <span class="pipe-step pipe-done">Detected</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Verified</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Payout sent</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Paid ✓</span>
+        </div>
+      </div>
+
+      <!-- Claim 4 -->
+      <div class="claim-card">
+        <div class="claim-header">
+          <div class="claim-event">
+            <div class="claim-icon" style="background:#f3e8ff">🌫️</div>
+            <div>
+              <div class="claim-title">Severe AQI — Hazardous</div>
+              <div class="claim-meta">Feb 28, 2026 · Auto-triggered · AQI 418</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="claim-amount">₹640</div>
+            <span class="trigger-badge badge-triggered" style="font-size:11px">Paid</span>
+          </div>
+        </div>
+        <div class="claim-pipeline">
+          <span class="pipe-step pipe-done">Detected</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Verified</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Payout sent</span>
+          <span class="pipe-arrow">›</span>
+          <span class="pipe-step pipe-done">Paid ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: PAYOUTS
+    ══════════════════════════════════════ -->
+    <div id="screen-payout" class="screen">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Payout History</div>
+          <div class="section-sub">All payouts via UPI · Razorpay sandbox</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Current claim in progress</div></div>
+          <div class="card-body">
+            <div style="text-align:center;padding:10px 0 20px">
+              <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Releasing to Ravi Kumar</div>
+              <div style="font-family:var(--font-display);font-size:48px;font-weight:800;color:var(--g700);letter-spacing:-2px">₹640</div>
+              <div style="font-size:13px;color:var(--muted)">via UPI · ravi@ybl · HDFC ···4321</div>
+            </div>
+            <div class="payout-timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-title">Disruption detected</div>
+                <div class="timeline-time">10:14 AM — OpenWeatherMap confirmed 68mm/hr</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-title">Claim auto-initiated</div>
+                <div class="timeline-time">10:14 AM — Zero-touch · No action needed</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-title">Fraud check passed</div>
+                <div class="timeline-time">10:15 AM — Score: 0.08 · GPS verified · No duplicates</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot active"></div>
+                <div class="timeline-title">UPI transfer in progress</div>
+                <div class="timeline-time">10:16 AM — Razorpay ref: pay_GS2026032001</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot pending"></div>
+                <div class="timeline-title">Payment confirmed</div>
+                <div class="timeline-time">Expected ~10:55 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Payout history</div></div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table">
+              <thead>
+                <tr><th>Date</th><th>Trigger</th><th>Amount</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Mar 20</td><td>Heavy rain</td><td style="font-weight:600;color:var(--g700)">₹640</td><td><span class="trigger-badge badge-monitoring">Sending</span></td></tr>
+                <tr><td>Mar 15</td><td>Heavy rain</td><td style="font-weight:600;color:var(--g700)">₹640</td><td><span class="trigger-badge badge-triggered">Paid</span></td></tr>
+                <tr><td>Mar 10</td><td>Curfew</td><td style="font-weight:600;color:var(--g700)">₹640</td><td><span class="trigger-badge badge-triggered">Paid</span></td></tr>
+                <tr><td>Feb 28</td><td>AQI hazard</td><td style="font-weight:600;color:var(--g700)">₹640</td><td><span class="trigger-badge badge-triggered">Paid</span></td></tr>
+                <tr><td>Feb 14</td><td>Heavy rain</td><td style="font-weight:600;color:var(--g700)">₹640</td><td><span class="trigger-badge badge-triggered">Paid</span></td></tr>
+                <tr><td>Jan 22</td><td>Flood alert</td><td style="font-weight:600;color:var(--g700)">₹640</td><td><span class="trigger-badge badge-triggered">Paid</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: ADMIN
+    ══════════════════════════════════════ -->
+    <div id="screen-admin" class="screen">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Insurer Analytics</div>
+          <div class="section-sub">Hyderabad portfolio · Week of Mar 17–23</div>
+        </div>
+        <div class="topbar-date">Live</div>
+      </div>
+
+      <div class="admin-kpi">
+        <div class="kpi-card">
+          <div class="kpi-title">Active policies</div>
+          <div class="kpi-val">2,847</div>
+          <div class="kpi-change up">↑ +142 this week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Claims this week</div>
+          <div class="kpi-val">341</div>
+          <div class="kpi-change up">↑ +18% vs last week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Loss ratio</div>
+          <div class="kpi-val">67%</div>
+          <div class="kpi-change down">✓ Target &lt;72%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Weekly premium collected</div>
+          <div class="kpi-val">₹1.4L</div>
+          <div class="kpi-change neutral">Across all plans</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Fraud caught this week</div>
+          <div class="kpi-val">3</div>
+          <div class="kpi-change down">₹1,920 saved</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Avg payout time</div>
+          <div class="kpi-val">1h 38m</div>
+          <div class="kpi-change down">↓ 12min faster</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Fraud queue</div><span class="metric-badge badge-red-light">3 flagged</span></div>
+          <div class="card-body">
+            <div class="fraud-item">
+              <div class="fraud-num">!</div>
+              <div style="flex:1">
+                <div class="fraud-name">Worker #4821 · Jubilee Hills</div>
+                <div class="fraud-reason">3 claims in 4 days · GPS coordinates outside disruption zone</div>
+              </div>
+              <span class="trigger-badge badge-blocked">Review</span>
+            </div>
+            <div class="fraud-item">
+              <div class="fraud-num">!</div>
+              <div style="flex:1">
+                <div class="fraud-name">Worker #2301 · Madhapur</div>
+                <div class="fraud-reason">Claim filed 3hrs after disruption window closed</div>
+              </div>
+              <span class="trigger-badge badge-flagged">Flagged</span>
+            </div>
+            <div class="fraud-item">
+              <div class="fraud-num">!</div>
+              <div style="flex:1">
+                <div class="fraud-name">Worker #9012 · Kondapur</div>
+                <div class="fraud-reason">Duplicate claim attempt — auto-blocked by system</div>
+              </div>
+              <span class="trigger-badge badge-blocked">Blocked</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">ML forecast: Mar 24–30</div></div>
+          <div class="card-body">
+            <div class="prediction-item">
+              <div class="pred-icon">🌧</div>
+              <div>
+                <div class="pred-label">Rain disruption probability</div>
+                <div class="pred-desc">IMD forecast: 3 heavy rain days predicted</div>
+              </div>
+              <div class="pred-value" style="color:var(--red)">78%</div>
+            </div>
+            <div class="prediction-item">
+              <div class="pred-icon">📋</div>
+              <div>
+                <div class="pred-label">Estimated claims</div>
+                <div class="pred-desc">Based on 2,847 active policies × trigger probability</div>
+              </div>
+              <div class="pred-value">~520</div>
+            </div>
+            <div class="prediction-item">
+              <div class="pred-icon">💰</div>
+              <div>
+                <div class="pred-label">Reserve needed</div>
+                <div class="pred-desc">At 67% loss ratio · Pro Shield avg ₹640/day</div>
+              </div>
+              <div class="pred-value" style="color:var(--g700)">₹3.3L</div>
+            </div>
+            <div class="prediction-item">
+              <div class="pred-icon">📈</div>
+              <div>
+                <div class="pred-label">Premium income next week</div>
+                <div class="pred-desc">Projected renewals + new enrollments</div>
+              </div>
+              <div class="pred-value" style="color:var(--g700)">₹1.6L</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Trigger frequency · Last 30 days</div></div>
+        <div class="card-body">
+          <table class="data-table">
+            <thead>
+              <tr><th>Trigger type</th><th>Events</th><th>Claims filed</th><th>Payout (₹)</th><th>Fraud blocked</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Heavy rain</td><td>8</td><td>1,240</td><td style="color:var(--g700);font-weight:600">₹7,93,600</td><td>2</td></tr>
+              <tr><td>Flood alert</td><td>3</td><td>420</td><td style="color:var(--g700);font-weight:600">₹2,68,800</td><td>0</td></tr>
+              <tr><td>Curfew / Strike</td><td>2</td><td>510</td><td style="color:var(--g700);font-weight:600">₹3,26,400</td><td>1</td></tr>
+              <tr><td>Extreme heat</td><td>1</td><td>88</td><td style="color:var(--g700);font-weight:600">₹28,160</td><td>0</td></tr>
+              <tr><td>AQI hazardous</td><td>1</td><td>196</td><td style="color:var(--g700);font-weight:600">₹1,25,440</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+function showScreen(name, navEl) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  const titles = {
+    dashboard: 'Dashboard',
+    onboard: 'Onboarding',
+    policy: 'My Policy',
+    claims: 'Claims',
+    payout: 'Payouts',
+    admin: 'Admin Analytics'
+  };
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+  // clear claims badge when viewed
+  if (name === 'claims') {
+    const badge = document.querySelector('.nav-badge');
+    if (badge) badge.style.display = 'none';
+  }
+}
+
+function selectPlan(el, base, coverage, days) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const adjustments = 8 + 5 - 2;
+  const final = base + adjustments;
+  const maxPayout = coverage * days;
+  document.getElementById('bd-base').textContent = '₹' + base;
+  document.getElementById('final-amt').textContent = '₹' + final;
+  document.getElementById('max-payout').textContent = '₹' + maxPayout.toLocaleString('en-IN');
+  document.getElementById('payout-desc').textContent = days + ' days × ₹' + coverage + '/day';
+}
+
+// Animate progress bars on load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.progress-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      setTimeout(() => el.style.width = w, 100);
+    });
+  }, 300);
+});
+</script>
+</body>
+</html>
