@@ -1,4 +1,4 @@
-# 🛡️ GigShield — AI-Powered Parametric Income Insurance for Food Delivery Partners
+#  GigShield — AI-Powered Parametric Income Insurance for Food Delivery Partners
 
 > **Guidewire DEVTrails 2026** | University Hackathon  
 > **Persona:** Food Delivery Partners (Zomato / Swiggy)  
@@ -7,7 +7,7 @@
 
 ---
 
-## 🎯 Problem Statement
+##  Problem Statement
 
 India's food delivery partners (Zomato, Swiggy) earn ₹15,000–₹25,000/month but lose **20–30% of income** during external disruptions — heavy rain, extreme heat, floods, local curfews, or platform outages. They have **no financial safety net**.
 
@@ -15,7 +15,7 @@ India's food delivery partners (Zomato, Swiggy) earn ₹15,000–₹25,000/month
 
 ---
 
-## 👤 Persona: The Zomato/Swiggy Delivery Partner
+##  Persona: The Zomato/Swiggy Delivery Partner
 
 ### User Profile
 | Attribute | Detail |
@@ -37,7 +37,7 @@ India's food delivery partners (Zomato, Swiggy) earn ₹15,000–₹25,000/month
 
 ---
 
-## 🔄 Application Workflow
+##  Application Workflow
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -64,7 +64,7 @@ India's food delivery partners (Zomato, Swiggy) earn ₹15,000–₹25,000/month
 
 ---
 
-## 💰 Weekly Premium Model
+##  Weekly Premium Model
 
 ### Why Weekly?
 Food delivery partners receive earnings weekly from Zomato/Swiggy. Aligning insurance premiums with the payout cycle reduces friction and increases adoption.
@@ -94,7 +94,7 @@ Where:
 
 ---
 
-## ⚡ Parametric Triggers
+##  Parametric Triggers
 
 Claims are triggered **automatically** when measurable thresholds are crossed — no manual filing required.
 
@@ -109,7 +109,7 @@ Claims are triggered **automatically** when measurable thresholds are crossed �
 
 ---
 
-## 🤖 AI/ML Integration Plan
+##  AI/ML Integration Plan
 
 ### 1. Dynamic Premium Calculation
 - **Model:** Gradient Boosted Trees (XGBoost)
@@ -137,7 +137,7 @@ Claims are triggered **automatically** when measurable thresholds are crossed �
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Frontend
 | Layer | Technology |
@@ -174,7 +174,7 @@ Claims are triggered **automatically** when measurable thresholds are crossed �
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 gigshield/
@@ -212,7 +212,7 @@ gigshield/
 
 ## 🗓️ Development Plan
 
-### Phase 1 (March 4–20) — ✅ Ideation & Foundation
+### Phase 1 (March 4–20) —  Ideation & Foundation
 - [x] Persona research & scenario definition
 - [x] Weekly pricing model design
 - [x] Parametric trigger definitions
@@ -235,7 +235,7 @@ gigshield/
 
 ---
 
-## 🧩 Key Differentiators
+##  Key Differentiators
 
 1. **Zero-Touch Claims** — No forms, no calls. Disruption detected → claim auto-filed → payout in <2 hrs
 2. **Hyper-Local Risk Scoring** — Premium varies by pin code, not just city
@@ -243,24 +243,12 @@ gigshield/
 4. **Vernacular UX** — Hindi/Telugu language support for low-literacy workers
 5. **WhatsApp Integration (Phase 3)** — Workers can check coverage and receive alerts via WhatsApp
 
----
 
-## 👥 Team
 
-| Name | Role |
-|------|------|
-| [Team Member 1] | Full Stack Lead |
-| [Team Member 2] | ML / Backend |
-| [Team Member 3] | Frontend / UX |
-| [Team Member 4] | Product / Research |
+##  Links
 
----
-
-## 📎 Links
-
-- 🎥 **Phase 1 Video:** [Link to be added]
-- 📊 **Prototype:** [Link to be added]
-- 🗂️ **Figma Wireframes:** [Link to be added]
+-  **Phase 1 Video:** [Link to be added]
+-  **Prototype:** [Link to be added]
 
 ---
 
